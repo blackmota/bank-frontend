@@ -1,0 +1,72 @@
+version: "3.8"
+
+services:
+  # Frontend services
+  frontend1:
+    image: bank-frontend:latest
+    networks:
+      - frontend-network
+
+  frontend2:
+    image: bank-frontend:latest
+    networks:
+      - frontend-network
+
+  frontend3:
+    image: bank-frontend:latest
+    networks:
+      - frontend-network
+
+  # Backend services
+  backend1:
+    image: bank-backend:latest
+    environment:
+      - DB_HOST=172.27.192.1
+    networks:
+      - backend-network
+
+  backend2:
+    image: bank-backend:latest
+    environment:
+      - DB_HOST=172.27.192.1
+    networks:
+      - backend-network
+
+  backend3:
+    image: bank-backend:latest
+    environment:
+      - DB_HOST=172.27.192.1
+    networks:
+      - backend-network
+
+  # Nginx for frontend load balancing
+  nginx-frontend:
+    image: nginx:latest
+    ports:
+      - "8070:80"
+    volumes:
+      - ./nginx-frontend.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - frontend1
+      - frontend2
+      - frontend3
+    networks:
+      - frontend-network
+
+  # Nginx for backend load balancing
+  nginx-backend:
+    image: nginx:latest
+    ports:
+      - "8011:8011"
+    volumes:
+      - ./nginx-backend.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - backend1
+      - backend2
+      - backend3
+    networks:
+      - backend-network
+
+networks:
+  frontend-network:
+  backend-network:
