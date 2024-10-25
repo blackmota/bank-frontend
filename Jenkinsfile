@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools {
-        nodejs 'NodeJS_14' // Asegúrate de tener una instalación de Node.js configurada en Jenkins
+        nodejs 'NodeJS_20' // Asegúrate de tener una instalación de Node.js configurada en Jenkins
     }
     stages {
         stage('Checkout') {
