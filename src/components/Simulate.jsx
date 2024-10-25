@@ -13,11 +13,32 @@ const LoanCalculator = () => {
   const [result, setResult] = useState(null); // Para almacenar el resultado de la llamada al backend
   const [error, setError] = useState(null); // Para almacenar el mensaje de error
 
+  const formatNumber = (value) => {
+    // Convierte el valor a número y lo formatea
+    return value.replace(/\D/g, "").replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+  };
+
+  const handleLoanAmountChange = (e) => {
+    const inputValue = e.target.value;
+    const formattedValue = formatNumber(inputValue);
+    setLoanAmount(formattedValue);
+  };
+
   const handleCalculate = (e) => {
     e.preventDefault();
 
+    // Eliminar los puntos de formato para el cálculo
+    const cleanLoanAmount = parseFloat(loanAmount.replace(/\./g, ""));
+    
+    // Verificar que todos los campos estén completos
+    if (!cleanLoanAmount || !rate || !years) {
+      setError("Por favor, completa todos los campos.");
+      setResult(null);
+      return; // Salir de la función si falta información
+    }
+
     const loanData = {
-      loanAmount: parseFloat(loanAmount),
+      loanAmount: cleanLoanAmount,
       rate: parseFloat(rate),
       years: parseInt(years),
     };
@@ -59,10 +80,10 @@ const LoanCalculator = () => {
           <TextField
             id="loanAmount"
             label="Monto del Préstamo"
-            type="number"
+            type="text" // Cambiar a texto para que permita el formato
             value={loanAmount}
             variant="standard"
-            onChange={(e) => setLoanAmount(e.target.value)}
+            onChange={handleLoanAmountChange} // Usar el nuevo manejador
           />
         </FormControl>
 
@@ -102,7 +123,7 @@ const LoanCalculator = () => {
 
         {result !== null && (
           <div>
-            <h4>El pago mensual de su simulacion es de: {Math.round(result)} $CLP/Mes</h4>
+            <h4>La cuota mensual de su credito simulado es de: {Math.round(result).toLocaleString('es-ES')} $CLP/Mes</h4>
           </div>
         )}
 
@@ -112,13 +133,14 @@ const LoanCalculator = () => {
           </div>
         )}
       </Box>
-    )} else {
-      return (
-        <div>
-          <h3> Debes iniciar sesión para acceder a la calculadora de préstamos </h3>
-        </div>
-      );
-    }
-  };
+    );
+  } else {
+    return (
+      <div>
+        <h3> Debes iniciar sesión para acceder a la calculadora de préstamos </h3>
+      </div>
+    );
+  }
+};
 
-  export default LoanCalculator;
+export default LoanCalculator;

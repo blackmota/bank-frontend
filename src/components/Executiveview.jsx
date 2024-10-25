@@ -94,7 +94,7 @@ const AllTicketsList = () => {
       )}
 
       {!loading && tickets.length === 0 && !error && (
-        <div>No se encontraron tickets.</div>
+        <div>No se encontraron tickets para procesar.</div>
       )}
 
       <Button variant="contained" color="primary" onClick={fetchAllTickets}>

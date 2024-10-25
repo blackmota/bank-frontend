@@ -19,21 +19,21 @@ services:
 
   # Backend services
   backend1:
-    image: bank-backend:latest
+    image: bank-service:latest
     environment:
       - DB_HOST=172.27.192.1
     networks:
       - backend-network
 
   backend2:
-    image: bank-backend:latest
+    image: bank-service:latest
     environment:
       - DB_HOST=172.27.192.1
     networks:
       - backend-network
 
   backend3:
-    image: bank-backend:latest
+    image: bank-service:latest
     environment:
       - DB_HOST=172.27.192.1
     networks:

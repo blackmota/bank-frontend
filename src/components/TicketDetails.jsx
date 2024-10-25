@@ -92,23 +92,30 @@ const TicketDetails = () => {
     };
 
     const handlestep8 = () => {
+        if(window.confirm("¿Está seguro de que quiere aceptar?")){
         ticketService.aproveTicket(ticket)
         navigate("/executive")
+        }
         
     };
 
     const handlereject = () => {
-        ticketService.rejectTicket(ticket)
+        if(window.confirm("¿Está seguro de que quiere rechazar el prestamo?")){
+        ticketService.rejectTicket(ticket);
+        navigate("/executive")
+        }
     };
 
     const setStep = () => {
-        ticketService.setStep(ticket).then(response => { setTicket(response.data); })
+        if(window.confirm("¿Está seguro de que quiere aceptar?")){
+        ticketService.setStep(ticket).then(response => { setTicket(response.data); })}
     };
 
     const acceptTicketExecutive = () => {
+        if(window.confirm("¿Está seguro de que quiere aceptar?")){
         ticketService.acceptTicketExecutive(ticket).then(response => { setTicket(response.data);
             navigate("/executive")
-         })
+         })}
     };
 
     const handleChange = (event) => {

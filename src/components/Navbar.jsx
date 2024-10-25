@@ -20,7 +20,7 @@ export default function Navbar() {
 
   const handleLogout = () => {
     localStorage.clear();
-    navigate("/login");  // Navegar al login después del logout
+    navigate("");  // Navegar al login después del logout
   };
 
   const handleToolbarClick = () => {

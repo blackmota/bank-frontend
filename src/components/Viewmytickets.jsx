@@ -68,15 +68,32 @@ const TicketList = () => {
   };
 
   const cancelTicket = (ticketId) => {
-    ticketService.cancelTicket(ticketId)
-      .then(() => {
-        console.log(`Ticket ${ticketId} cancelado.`);
-        fetchTickets(userId);
-      })
-      .catch((error) => {
-        console.log("Error al cancelar el ticket:", error);
-        setError("Ocurrió un error al cancelar el ticket.");
-      });
+    if (window.confirm("¿Estás seguro de cancelar el ticket?")) {
+      ticketService.cancelTicket(ticketId)
+        .then(() => {
+          console.log(`Ticket ${ticketId} cancelado.`);
+          fetchTickets(userId);
+        })
+        .catch((error) => {
+          console.log("Error al cancelar el ticket:", error);
+          setError("Ocurrió un error al cancelar el ticket.");
+        });
+    }
+  };
+
+  const rejectConditions = () => {
+    if (window.confirm("¿Estás seguro de rechazar los términos del ticket?")) {
+      ticketService.cancelTicket(selectedTicket)
+        .then(() => {
+          console.log(`Términos del ticket ${selectedTicket} rechazados.`);
+          fetchTickets(userId);
+        })
+        .catch((error) => {
+          console.log("Error al rechazar los términos del ticket:", error);
+          setError("Ocurrió un error al rechazar los términos del ticket.");
+        });
+        setOpen(false);
+    }
   };
 
   const handleClickOpen = (ticket) => {
@@ -103,10 +120,8 @@ const TicketList = () => {
     setOpen(false);
   };
 
-  const handleReject = () => {
-    console.log("Términos rechazados para el ticket:", selectedTicket);
-    setOpen(false);
-  };
+
+
   if (localStorage.getItem("id_usuario") != null) {
     return (
       <Box
@@ -195,24 +210,30 @@ const TicketList = () => {
               Años del credito: {selectedTicket?.years} <br />
               Cuota Mensual: {Math.round(selectedTicket?.fee).toLocaleString('es-ES')} CLP <br />
               Tasa de Interes: {selectedTicket?.interest} % <br />
-              Comision por Administracion: {Math.round(selectedTicket?.amount*0.01)} (1% del total del monto solicitado)<br />
-              Seguro de desgravamen: {Math.round(selectedTicket?.amount*0.0003)}  (0.03% del monto total por mes)<br />
+              Comision por Administracion: {Math.round(selectedTicket?.amount * 0.01)} (1% del total del monto solicitado)<br />
+              Seguro de desgravamen: {Math.round(selectedTicket?.amount * 0.0003)}  (0.03% del monto total por mes)<br />
               Seguro de incendios: 20.000 CLP por mes<br />
-              Costo Mensual: {Math.round(selectedTicket?.fee + selectedTicket?.amount*0.0003 + 20000).toLocaleString('es-ES')} CLP <br />
+              Costo Mensual: {Math.round(selectedTicket?.fee + selectedTicket?.amount * 0.0003 + 20000).toLocaleString('es-ES')} CLP <br />
               Costo total: {totalCost.toLocaleString('es-ES')} CLP <br />
               {/* Agrega más detalles si lo deseas */}
             </DialogContentText>
+            
           </DialogContent>
           <DialogActions>
             {selectedTicket?.status === "E4" && (<>
               <Button onClick={handleAccept} color="primary">
                 Aceptar
               </Button>
-              <Button onClick={handleReject} color="secondary">
+              <Button onClick={rejectConditions} color="error">
                 Rechazar
               </Button>
             </>
             )}
+          {selectedTicket?.status === "E5" && (
+            <Button onClick={rejectConditions} color="error">
+              Cancelar ticket
+            </Button>
+          )}
           </DialogActions>
         </Dialog>
       </Box>

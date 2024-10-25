@@ -12,7 +12,7 @@ import Select from "@mui/material/Select";
 
 const LoanRequestForm = () => {
     const [idUser, setIdUser] = useState(0);
-    const [amount, setAmount] = useState("");
+    const [amount, setAmount] = useState(""); // Inicializa como string
     const [years, setYears] = useState("");
     const [interest, setInterest] = useState("");
     const [type, setType] = useState(1);
@@ -23,6 +23,11 @@ const LoanRequestForm = () => {
 
     const navigate = useNavigate();
 
+    // Función para formatear el número con separadores de miles
+    const formatNumber = (num) => {
+        return num.replace(/\D/g, "").replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+    };
+
     const handleFileChange = (e, type, index) => {
         const newFiles = [...files];
         newFiles[index] = [e.target.files[0], type]; // Guarda el archivo en el índice correspondiente
@@ -31,7 +36,8 @@ const LoanRequestForm = () => {
 
     const handleSaveTicket = async (e) => {
         e.preventDefault();
-
+        if(!window.confirm("¿Estás seguro de enviar la solicitud?")){
+            return}
         // Validación de los campos
         if (!amount || !years || !interest) {
             setError("Todos los campos deben estar completos.");
@@ -58,9 +64,16 @@ const LoanRequestForm = () => {
 
         setError(""); // Limpiar cualquier error previo
 
+        // Convertir el monto a número sin comas
+        const formattedAmount = Number(amount.replace(/\./g, "").replace(/\D/g, ""));
+        if (isNaN(formattedAmount)) {
+            setError("El monto debe ser un número válido.");
+            return;
+        }
+
         const ticketData = {
             usuario: localStorage.getItem("id_usuario"),
-            amount,
+            amount: formattedAmount, // Usa el monto formateado
             years,
             interest,
             type,
@@ -119,10 +132,10 @@ const LoanRequestForm = () => {
                     <TextField
                         id="amount"
                         label="Monto"
-                        type="number"
+                        type="text" // Cambiar a 'text' para permitir la formateación
                         value={amount}
                         variant="standard"
-                        onChange={(e) => setAmount(Number(e.target.value))}
+                        onChange={(e) => setAmount(formatNumber(e.target.value))}
                     />
                 </FormControl>
                 <FormControl fullWidth>
@@ -253,7 +266,7 @@ const LoanRequestForm = () => {
                             <input
                                 type="file"
                                 hidden
-                                onChange={(e) => handleFileChange(e, 5, 0)}
+                                onChange={(e) => handleFileChange(e, 1, 0)}
                             />
                         </Button>
                         {files[0] && <span>{files[0][0].name}</span>}
@@ -263,7 +276,7 @@ const LoanRequestForm = () => {
                             <input
                                 type="file"
                                 hidden
-                                onChange={(e) => handleFileChange(e, 1, 1)}
+                                onChange={(e) => handleFileChange(e, 2, 1)}
                             />
                         </Button>
                         {files[1] && <span>{files[1][0].name}</span>}
@@ -273,7 +286,7 @@ const LoanRequestForm = () => {
                             <input
                                 type="file"
                                 hidden
-                                onChange={(e) => handleFileChange(e, 2, 2)}
+                                onChange={(e) => handleFileChange(e, 3, 2)}
                             />
                         </Button>
                         {files[2] && <span>{files[2][0].name}</span>}
@@ -283,7 +296,7 @@ const LoanRequestForm = () => {
                             <input
                                 type="file"
                                 hidden
-                                onChange={(e) => handleFileChange(e, 6, 3)}
+                                onChange={(e) => handleFileChange(e, 4, 3)}
                             />
                         </Button>
                         {files[3] && <span>{files[3][0].name}</span>}
@@ -306,7 +319,7 @@ const LoanRequestForm = () => {
                             <input
                                 type="file"
                                 hidden
-                                onChange={(e) => handleFileChange(e, 7, 1)}
+                                onChange={(e) => handleFileChange(e, 2, 1)}
                             />
                         </Button>
                         {files[1] && <span>{files[1][0].name}</span>}
@@ -316,29 +329,23 @@ const LoanRequestForm = () => {
                             <input
                                 type="file"
                                 hidden
-                                onChange={(e) => handleFileChange(e, 8, 2)}
+                                onChange={(e) => handleFileChange(e, 3, 2)}
                             />
                         </Button>
                         {files[2] && <span>{files[2][0].name}</span>}
                     </>
                 )}
 
-                <p></p>
                 <Button type="submit" variant="contained">
                     Guardar Ticket
                 </Button>
             </Box>
-        )
+        );
     } else {
         return (
-            <Box
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-                justifyContent="center"
-            >
-                <h3> Debes iniciar sesión para acceder a esta página </h3>
-            </Box>
+            <div>
+                <h1>Usuario no autenticado</h1>
+            </div>
         );
     }
 };
