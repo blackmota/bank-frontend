@@ -21,21 +21,21 @@ services:
   backend1:
     image: bank-service:latest
     environment:
-      - DB_HOST=10.1.0.4
+      - DB_HOST=192.168.1.90
     networks:
       - backend-network
 
   backend2:
     image: bank-service:latest
     environment:
-      - DB_HOST=10.1.0.4
+      - DB_HOST=192.168.1.90
     networks:
       - backend-network
 
   backend3:
     image: bank-service:latest
     environment:
-      - DB_HOST=10.1.0.4
+      - DB_HOST=192.168.1.90
     networks:
       - backend-network
 
