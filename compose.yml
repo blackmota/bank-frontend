@@ -21,21 +21,21 @@ services:
   backend1:
     image: blackmota/bank-service:latest
     environment:
-      - DB_HOST=192.168.1.90
+      - DB_HOST=191.233.192.107
     networks:
       - backend-network
 
   backend2:
     image: blackmota/bank-service:latest
     environment:
-      - DB_HOST=192.168.1.90
+      - DB_HOST=191.233.192.107
     networks:
       - backend-network
 
   backend3:
     image: blackmota/bank-service:latest
     environment:
-      - DB_HOST=192.168.1.90
+      - DB_HOST=191.233.192.107
     networks:
       - backend-network
 
