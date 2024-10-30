@@ -23,6 +23,13 @@ const LoanRequestForm = () => {
 
     const navigate = useNavigate();
 
+    const interestRanges = {
+        1: { min: 3.5, max: 5 },
+        2: { min: 4, max: 6 },
+        3: { min: 5, max: 7 },
+        4: { min: 4.5, max: 6 },
+    };
+
     // Función para formatear el número con separadores de miles
     const formatNumber = (num) => {
         return num.replace(/\D/g, "").replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
@@ -43,6 +50,14 @@ const LoanRequestForm = () => {
             setError("Todos los campos deben estar completos.");
             return;
         }
+
+         // Validación de rango de interés según el tipo de préstamo
+         const { min, max } = interestRanges[type];
+         const interestValue = parseFloat(interest);
+         if (interestValue < min || interestValue > max) {
+             setError(`El interés debe estar entre ${min}% y ${max}% para este tipo de préstamo.`);
+             return;
+         }
 
         // Validación de los documentos según el tipo
         let requiredFiles = [];
@@ -94,6 +109,7 @@ const LoanRequestForm = () => {
                         );
                     }
                 }
+                alert("Solicitud enviada exitosamente.");
                 navigate("/dashboard");
             }
         } catch (error) {

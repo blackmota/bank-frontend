@@ -3,37 +3,37 @@ version: "3.8"
 services:
   # Frontend services
   frontend1:
-    image: bank-frontend:latest
+    image: blackmota/bank-frontend:latest
     networks:
       - frontend-network
 
   frontend2:
-    image: bank-frontend:latest
+    image: blackmota/bank-frontend:latest
     networks:
       - frontend-network
 
   frontend3:
-    image: bank-frontend:latest
+    image: blackmota/bank-frontend:latest
     networks:
       - frontend-network
 
   # Backend services
   backend1:
-    image: bank-service:latest
+    image: blackmota/bank-service:latest
     environment:
       - DB_HOST=192.168.1.90
     networks:
       - backend-network
 
   backend2:
-    image: bank-service:latest
+    image: blackmota/bank-service:latest
     environment:
       - DB_HOST=192.168.1.90
     networks:
       - backend-network
 
   backend3:
-    image: bank-service:latest
+    image: blackmota/bank-service:latest
     environment:
       - DB_HOST=192.168.1.90
     networks:

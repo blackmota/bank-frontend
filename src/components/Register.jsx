@@ -12,60 +12,135 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-
 const Register = () => {
-    const [name, setName] = useState("");
-    const [lastname, setLastname] = useState("");
-    const [email, setEmail] = useState("");
-    const [income, setIncome] = useState("");
-    const [password, setPassword] = useState("");
-    const [birthDate, setBirthDate] = useState("");
-    const [rut, setRut] = useState("");
-    const [error, setError] = useState(null); // Estado para el mensaje de error
-    const [open, setOpen] = useState(false); // Estado para el diálogo
+  const [name, setName] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [email, setEmail] = useState("");
+  const [income, setIncome] = useState("");
+  const [password, setPassword] = useState("");
+  const [birthDate, setBirthDate] = useState("");
+  const [rut, setRut] = useState("");
+  const [error, setError] = useState(null); // Estado para el mensaje de error
+  const [open, setOpen] = useState(false); // Estado para el diálogo
+
+  const navigate = useNavigate();
+
+  const formatRut = (value) => {
+    const cleanedValue = value.replace(/\D/g, "");
+    if (cleanedValue.length <= 1) return cleanedValue;
+    const rut = `${cleanedValue.slice(0, -1)}`;
+    const dv = cleanedValue.slice(-1);
+    const formattedRut = rut.replace(/\B(?=(\d{3})+(?!\d))/g, ".") + `-${dv}`;
+    return formattedRut;
+  };
+
+  const handleRutChange = (e) => {
+    const input = e.target.value;
+    setRut(formatRut(input));
+  };
+
+  const calculateAge = (birthDate) => {
+    const birth = new Date(birthDate);
+    const today = new Date();
+    let age = today.getFullYear() - birth.getFullYear();
+    const monthDifference = today.getMonth() - birth.getMonth();
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birth.getDate())) {
+      age--;
+    }
+    return age;
+  };
+
+  const formatNumber = (value) => {
+    // Convierte el valor a número y lo formatea
+    return value.replace(/\D/g, "").replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+  };
+
+  const validateRut = (rut) => {
+    const cleanedRut = rut.replace(/\./g, "").replace("-", "");
+    const body = cleanedRut.slice(0, -1);
+    const dv = cleanedRut.slice(-1).toUpperCase();
   
-    const navigate = useNavigate();
+    let sum = 0;
+    let multiplier = 2;
   
+    for (let i = body.length - 1; i >= 0; i--) {
+      sum += parseInt(body[i]) * multiplier;
+      multiplier = multiplier === 7 ? 2 : multiplier + 1;
+    }
+  
+    const calculatedDv = 11 - (sum % 11);
+    const dvExpected = calculatedDv === 11 ? "0" : calculatedDv === 10 ? "K" : calculatedDv.toString();
+  
+    return dv === dvExpected;
+  };
+  
+
+  const handleIncomeChange = (e) => {
+    const inputValue = e.target.value;
+    const formattedValue = formatNumber(inputValue);
+    setIncome(formattedValue);
+  };
 
   const handleRegister = (e) => {
     e.preventDefault();
   
+    // Validar que el RUT sea válido
+    if (!validateRut(rut)) {
+      setError("El RUT ingresado no es válido. Por favor, revise e intente de nuevo.");
+      setOpen(true);
+      return;
+    }
+  
+    // Validar la edad
+    const age = calculateAge(birthDate);
+    if (age > 69) {
+      setError("La edad máxima permitida para registrarse es de 69 años.");
+      setOpen(true);
+      return;
+    } else if (age < 0) {
+      setError("Ingrese una fecha de nacimiento válida.");
+      setOpen(true);
+      return;
+    } else if (age < 18) {
+      setError("No se pueden registrar usuarios con menos de 18 años.");
+      setOpen(true);
+      return;
+    }
+    setError(null);
+  
+    const cleanIncome = parseFloat(income.replace(/\./g, ""));
     const userData = {
       name,
       lastname,
       email,
-      income,
+      income: cleanIncome,
       password,
       birthDate,
       rut,
-      role: 1, // Siempre establecer el rol en 1
+      role: 1,
     };
-  
-    console.log("Registrando usuario con:", userData);
   
     authService
       .register(userData)
       .then((response) => {
         if (!response || response.data === null) {
-          console.log("El registro falló. El servicio retornó null.");
           setError("El registro falló. Por favor, intente de nuevo.");
-          setOpen(true); // Abrir el diálogo
-          return; // Detener la ejecución y no navegar
+          setOpen(true);
+          return;
         }
-        console.log("Registro exitoso.", response.data);
         setError(null);
-        localStorage.setItem("id_usuario",response.data.id);
+        localStorage.setItem("id_usuario", response.data.id);
         localStorage.setItem("income", response.data.income);
         localStorage.setItem("user_birth", response.data.birthDate);
-        localStorage.setItem("permisos",response.data.role); 
-        navigate("/dashboard"); // Redirigir al usuario si el registro fue exitoso
+        localStorage.setItem("permisos", response.data.role);
+        navigate("/dashboard");
       })
       .catch((error) => {
-        setError("Ocurrió un error al intentar registrarse.");
-        setOpen(true); // Abrir el diálogo
-        console.log("Error en el registro.", error);
+        setError("Ya existe un usuario con ese Rut.");
+        setOpen(true);
       });
   };
+  
 
   return (
     <Box
@@ -78,7 +153,7 @@ const Register = () => {
     >
       <h3> Registro de Usuario </h3>
       <hr />
-  
+
       <FormControl fullWidth>
         <TextField
           id="name"
@@ -88,7 +163,7 @@ const Register = () => {
           onChange={(e) => setName(e.target.value)}
         />
       </FormControl>
-  
+
       <FormControl fullWidth>
         <TextField
           id="lastname"
@@ -98,7 +173,7 @@ const Register = () => {
           onChange={(e) => setLastname(e.target.value)}
         />
       </FormControl>
-  
+
       <FormControl fullWidth>
         <TextField
           id="email"
@@ -109,18 +184,18 @@ const Register = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
       </FormControl>
-  
+
       <FormControl fullWidth>
         <TextField
           id="income"
-          label="Ingresos"
-          type="number"
+          label="Ingresos Mensuales"
+          type="text"
           value={income}
           variant="standard"
-          onChange={(e) => setIncome(e.target.value)}
+          onChange={handleIncomeChange}
         />
       </FormControl>
-  
+
       <FormControl fullWidth>
         <TextField
           id="password"
@@ -131,7 +206,7 @@ const Register = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
       </FormControl>
-  
+
       <FormControl fullWidth>
         <TextField
           id="birthDate"
@@ -145,17 +220,17 @@ const Register = () => {
           onChange={(e) => setBirthDate(e.target.value)}
         />
       </FormControl>
-  
+
       <FormControl fullWidth>
         <TextField
           id="rut"
           label="RUT"
           value={rut}
           variant="standard"
-          onChange={(e) => setRut(e.target.value)}
+          onChange={handleRutChange}
         />
       </FormControl>
-  
+
       <FormControl>
         <br />
         <Button
@@ -167,13 +242,13 @@ const Register = () => {
           Registrarse
         </Button>
       </FormControl>
-  
-      {/* Componente de diálogo para mostrar el mensaje de error */}
+
+      {/* Diálogo para mostrar el mensaje de error */}
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Error</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            {error} {/* Mensaje de error */}
+            {error}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

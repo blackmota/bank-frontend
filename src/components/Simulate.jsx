@@ -90,7 +90,7 @@ const LoanCalculator = () => {
         <FormControl fullWidth>
           <TextField
             id="rate"
-            label="Tasa de Interés (%)"
+            label="Tasa de Interés % (Ej: 4.5))"
             type="number"
             value={rate}
             variant="standard"

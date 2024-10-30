@@ -68,19 +68,25 @@ const TicketDetails = () => {
     const [resultado7, setResultado7] = useState(null);
 
     const handlestep1 = () => {
-        ticketService.validater1(Req1,ticket.fee).then(response => { setResultado1(response.data); })
+        const cleanReq1 = parseFloat(Req1.replace(/\./g, ""));
+        ticketService.validater1(cleanReq1,ticket.fee).then(response => { setResultado1(response.data); })
     };
+
+
     
     const handlestep3 = () => {
         ticketService.validater3(Req3, isChecked).then(response => { setResultado3(response.data); })
     };
 
     const handlestep4 = () => {
-        ticketService.validater4(ticket.fee,Req42,Req41).then(response => { setResultado4(response.data); })
+        const cleanReq41 = parseFloat(Req41.replace(/\./g, ""));
+        const cleanReq42 = parseFloat(Req42.replace(/\./g, ""));
+        ticketService.validater4(ticket.fee,cleanReq42,cleanReq41).then(response => { setResultado4(response.data); })
     };
 
     const handlestep5 = () => {
-        ticketService.validater5(ticket.amount,ticket.type,Req5).then(response => { setResultado5(response.data); })
+        const cleanReq5 = parseFloat(Req5.replace(/\./g, ""));
+        ticketService.validater5(ticket.amount,ticket.type,cleanReq5).then(response => { setResultado5(response.data); })
     };
 
     const handlestep6 = () => {
@@ -104,6 +110,35 @@ const TicketDetails = () => {
         ticketService.rejectTicket(ticket);
         navigate("/executive")
         }
+    };
+
+    const formatNumber = (value) => {
+        // Convierte el valor a número y lo formatea
+        return value.replace(/\D/g, "").replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+      };
+
+    const handleincomechange = (e) => {
+        const inputValue = e.target.value;
+        const formattedValue = formatNumber(inputValue);
+        setReq1(formattedValue);
+      };
+
+    const handleincomechange41 = (e) => {
+        const inputValue = e.target.value;
+        const formattedValue = formatNumber(inputValue);
+        setReq41(formattedValue);
+    };
+
+    const handledebtchange42 = (e) => {
+        const inputValue = e.target.value;
+        const formattedValue = formatNumber(inputValue);
+        setReq42(formattedValue);
+    };
+
+    const handlepricetagchange = (e) => {
+        const inputValue = e.target.value;
+        const formattedValue = formatNumber(inputValue);
+        setReq5(formattedValue);
     };
 
     const setStep = () => {
@@ -189,12 +224,13 @@ const TicketDetails = () => {
                     <div>
                         <Typography variant="h6">Paso 1: Verificar Relación Cuota Ingresos</Typography>
                         <TextField
-                            label="Ingrese los ingresos"
-                            type="number"
+                            label="Rellene con los ingresos del solicitante"
+                            type="text"
                             variant="outlined"
+                            value = {Req1}
                             fullWidth
                             margin="normal"
-                            onChange={(e) => setReq1(Number(e.target.value))}
+                            onChange={handleincomechange}
                             
                         />
                         <Button type="submit" variant="contained" onClick={handlestep1}>
@@ -274,19 +310,21 @@ const TicketDetails = () => {
                         <Typography variant="h6">Paso 4: Relación Deuda/Ingreso</Typography>
                         <TextField
                             label="Ingresos del cliente"
-                            type="number"
+                            type="text"
                             variant="outlined"
+                            value= {Req41}
                             fullWidth
                             margin="normal"
-                            onChange={(e) => setReq41(Number(e.target.value))}
+                            onChange={handleincomechange41}
                         />
                         <TextField
                             label="Ingrese cuota de otras deudas"
-                            type="number"
+                            type="text"
                             variant="outlined"
+                            value = {Req42}
                             fullWidth
                             margin="normal"
-                            onChange={(e) => setReq42(Number(e.target.value))}
+                            onChange={handledebtchange42}
                         />
                         <Button type="submit" variant="contained" onClick={handlestep4}>
                             Calcular
@@ -310,11 +348,12 @@ const TicketDetails = () => {
                         <Typography variant="h6">Paso 5: Monto Máximo del Financiamiento</Typography>
                         <TextField
                             label="Ingrese la valuacion de propiedad/remodelacion"
-                            type="number"
+                            type="text"
                             variant="outlined"
+                            value = {Req5}
                             fullWidth
                             margin="normal"
-                            onChange={(e) => setReq5(Number(e.target.value)) }
+                            onChange={handlepricetagchange }
                         />
                         <Button type="submit" variant="contained" onClick={handlestep5}>
                             Calcular

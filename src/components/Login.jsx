@@ -8,39 +8,50 @@ import FormControl from "@mui/material/FormControl";
 import LoginIcon from "@mui/icons-material/Login";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
+  const [rut, setRut] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState(""); // Estado para el mensaje de error
-  
+  const [errorMessage, setErrorMessage] = useState("");
+
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
-    console.log("Iniciando sesión con:", username);
     authService
-      .login(username, password)
+      .login(rut, password)
       .then((response) => {
         if (!response || response.data === null) {
-          console.log("El inicio de sesión falló. El servicio retornó null.");
-          setErrorMessage("Usuario o contraseña incorrecta."); // Setea el mensaje de error
+          setErrorMessage("Usuario o contraseña incorrecta.");
           return;
         }
-        console.log("Login exitoso.", response.data);
-        setErrorMessage(null);
-        // Suponiendo que response.data contiene los campos necesarios
         const { id, income, birthDate, role } = response.data;
-
-        // Guardar datos en localStorage
         localStorage.setItem("id_usuario", id);
         localStorage.setItem("income", income);
         localStorage.setItem("user_birth", birthDate);
-        localStorage.setItem("permisos",role);
+        localStorage.setItem("permisos", role);
         navigate("/dashboard");
       })
       .catch((error) => {
-        console.log("Error en el inicio de sesión.", error);
-        setErrorMessage("Usuario o contraseña incorrecta."); // Setea el mensaje de error
+        setErrorMessage("Usuario o contraseña incorrecta.");
       });
+  };
+
+  const formatRut = (value) => {
+    // Elimina todos los caracteres no numéricos
+    const cleanedValue = value.replace(/\D/g, "");
+    
+    if (cleanedValue.length <= 1) return cleanedValue;
+
+    // Aplica el formato del RUT chileno
+    const rut = `${cleanedValue.slice(0, -1)}`;
+    const dv = cleanedValue.slice(-1);
+
+    const formattedRut = rut.replace(/\B(?=(\d{3})+(?!\d))/g, ".") + `-${dv}`;
+    return formattedRut;
+  };
+
+  const handleRutChange = (e) => {
+    const input = e.target.value;
+    setRut(formatRut(input));
   };
 
   return (
@@ -52,16 +63,16 @@ const Login = () => {
       component="form"
       onSubmit={handleLogin}
     >
-      <h3> Iniciar Sesión </h3>
+      <h3>Iniciar Sesión</h3>
       <hr />
 
       <FormControl fullWidth>
         <TextField
-          id="username"
-          label="Usuario"
-          value={username}
+          id="rut"
+          label="Ingrese su RUT"
+          value={rut}
           variant="standard"
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={handleRutChange}
         />
       </FormControl>
 
@@ -76,8 +87,8 @@ const Login = () => {
         />
       </FormControl>
 
-      {errorMessage && ( // Muestra el mensaje de error si existe
-        <div style={{ color: 'red', marginTop: '10px' }}>
+      {errorMessage && (
+        <div style={{ color: "red", marginTop: "10px" }}>
           {errorMessage}
         </div>
       )}
