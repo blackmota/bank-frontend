@@ -66,7 +66,7 @@ const AllTicketsList = () => {
               <ListItem alignItems="flex-start" divider>
                 <ListItemText
                   primary={`Ticket ID: ${ticket.id}`}
-                  secondary={`Monto: ${ticket.amount} | Años: ${ticket.years} | Tipo: ${ticket.type} | Estado: ${ticket.status} | paso: ${ticket.step}`}
+                  secondary={`Monto: ${ticket.amount.toLocaleString('es-ES')} | Años: ${ticket.years} | Tipo: ${ticket.type} | Estado: ${ticket.status} | paso: ${ticket.step}`}
                 />
                 <ListItemSecondaryAction>
                  

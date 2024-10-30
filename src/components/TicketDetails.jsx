@@ -5,6 +5,7 @@ import loanService from "../services/loan.service";
 import userService from "../services/user.service";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
 import documentService from "../services/document.service";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
@@ -69,11 +70,11 @@ const TicketDetails = () => {
 
     const handlestep1 = () => {
         const cleanReq1 = parseFloat(Req1.replace(/\./g, ""));
-        ticketService.validater1(cleanReq1,ticket.fee).then(response => { setResultado1(response.data); })
+        ticketService.validater1(cleanReq1, ticket.fee).then(response => { setResultado1(response.data); })
     };
 
 
-    
+
     const handlestep3 = () => {
         ticketService.validater3(Req3, isChecked).then(response => { setResultado3(response.data); })
     };
@@ -81,47 +82,47 @@ const TicketDetails = () => {
     const handlestep4 = () => {
         const cleanReq41 = parseFloat(Req41.replace(/\./g, ""));
         const cleanReq42 = parseFloat(Req42.replace(/\./g, ""));
-        ticketService.validater4(ticket.fee,cleanReq42,cleanReq41).then(response => { setResultado4(response.data); })
+        ticketService.validater4(ticket.fee, cleanReq42, cleanReq41).then(response => { setResultado4(response.data); })
     };
 
     const handlestep5 = () => {
         const cleanReq5 = parseFloat(Req5.replace(/\./g, ""));
-        ticketService.validater5(ticket.amount,ticket.type,cleanReq5).then(response => { setResultado5(response.data); })
+        ticketService.validater5(ticket.amount, ticket.type, cleanReq5).then(response => { setResultado5(response.data); })
     };
 
     const handlestep6 = () => {
-        ticketService.validater6(user.birthDate,ticket.years).then(response => { setResultado6(response.data); })
+        ticketService.validater6(user.birthDate, ticket.years).then(response => { setResultado6(response.data); })
     };
 
     const handlestep7 = () => {
-        ticketService.validater7(r1,r2,r3,r4,r5).then(response => { setResultado7(response.data); })
+        ticketService.validater7(r1, r2, r3, r4, r5).then(response => { setResultado7(response.data); })
     };
 
     const handlestep8 = () => {
-        if(window.confirm("¿Está seguro de que quiere aceptar?")){
-        ticketService.aproveTicket(ticket)
-        navigate("/executive")
+        if (window.confirm("¿Está seguro de que quiere aceptar?")) {
+            ticketService.aproveTicket(ticket)
+            navigate("/executive")
         }
-        
+
     };
 
     const handlereject = () => {
-        if(window.confirm("¿Está seguro de que quiere rechazar el prestamo?")){
-        ticketService.rejectTicket(ticket);
-        navigate("/executive")
+        if (window.confirm("¿Está seguro de que quiere rechazar el prestamo?")) {
+            ticketService.rejectTicket(ticket);
+            navigate("/executive")
         }
     };
 
     const formatNumber = (value) => {
         // Convierte el valor a número y lo formatea
         return value.replace(/\D/g, "").replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
-      };
+    };
 
     const handleincomechange = (e) => {
         const inputValue = e.target.value;
         const formattedValue = formatNumber(inputValue);
         setReq1(formattedValue);
-      };
+    };
 
     const handleincomechange41 = (e) => {
         const inputValue = e.target.value;
@@ -142,15 +143,18 @@ const TicketDetails = () => {
     };
 
     const setStep = () => {
-        if(window.confirm("¿Está seguro de que quiere aceptar?")){
-        ticketService.setStep(ticket).then(response => { setTicket(response.data); })}
+        if (window.confirm("¿Está seguro de que quiere aceptar?")) {
+            ticketService.setStep(ticket).then(response => { setTicket(response.data); })
+        }
     };
 
     const acceptTicketExecutive = () => {
-        if(window.confirm("¿Está seguro de que quiere aceptar?")){
-        ticketService.acceptTicketExecutive(ticket).then(response => { setTicket(response.data);
-            navigate("/executive")
-         })}
+        if (window.confirm("¿Está seguro de que quiere aceptar?")) {
+            ticketService.acceptTicketExecutive(ticket).then(response => {
+                setTicket(response.data);
+                navigate("/executive")
+            })
+        }
     };
 
     const handleChange = (event) => {
@@ -184,9 +188,10 @@ const TicketDetails = () => {
                 console.log(response);
                 loanService.calculateTotalAmount(response.data.amount, response.data.interest, response.data.years)
                     .then(response => { setAmount(response.data); })
-                userService.getUser(response.data.usuario).then(response => { 
+                userService.getUser(response.data.usuario).then(response => {
                     console.log(response.data);
-                    setUser(response.data); })
+                    setUser(response.data);
+                })
                 setLoading(false);
                 setError(null);
             })
@@ -227,17 +232,17 @@ const TicketDetails = () => {
                             label="Rellene con los ingresos del solicitante"
                             type="text"
                             variant="outlined"
-                            value = {Req1}
+                            value={Req1}
                             fullWidth
                             margin="normal"
                             onChange={handleincomechange}
-                            
+
                         />
                         <Button type="submit" variant="contained" onClick={handlestep1}>
                             Calcular
                         </Button>
-                        {resultado1===true && (<p>Resultado de evaluacion Aceptar.</p>)}
-                        {resultado1===false && (<p>Resultado de evaluacion Rechazar.</p>)}
+                        {resultado1 === true && (<p>Resultado de evaluacion Aceptar.</p>)}
+                        {resultado1 === false && (<p>Resultado de evaluacion Rechazar.</p>)}
                         <p></p>
                         <Box display="flex" gap={2} mt={2} justifyContent="center" alignItems="center">  {/* Espacio entre botones */}
                             <Button type="submit" variant="contained" color="success" onClick={setStep}>
@@ -291,8 +296,8 @@ const TicketDetails = () => {
                         <Button type="submit" variant="contained" onClick={handlestep3}>
                             Calcular
                         </Button>
-                        {resultado3===true && (<p>Resultado de evaluacion Aceptar.</p>)}
-                        {resultado3===false && (<p>Resultado de evaluacion Rechazar.</p>)}
+                        {resultado3 === true && (<p>Resultado de evaluacion Aceptar.</p>)}
+                        {resultado3 === false && (<p>Resultado de evaluacion Rechazar.</p>)}
                         <Box display="flex" gap={2} mt={2} justifyContent="center" alignItems="center">  {/* Espacio entre botones */}
                             <Button type="submit" variant="contained" color="success" onClick={setStep}>
                                 Aceptar Antiguedad Laboral
@@ -312,7 +317,7 @@ const TicketDetails = () => {
                             label="Ingresos del cliente"
                             type="text"
                             variant="outlined"
-                            value= {Req41}
+                            value={Req41}
                             fullWidth
                             margin="normal"
                             onChange={handleincomechange41}
@@ -321,7 +326,7 @@ const TicketDetails = () => {
                             label="Ingrese cuota de otras deudas"
                             type="text"
                             variant="outlined"
-                            value = {Req42}
+                            value={Req42}
                             fullWidth
                             margin="normal"
                             onChange={handledebtchange42}
@@ -329,8 +334,8 @@ const TicketDetails = () => {
                         <Button type="submit" variant="contained" onClick={handlestep4}>
                             Calcular
                         </Button>
-                        {resultado4===true && (<p>Resultado de evaluacion Aceptar.</p>)}
-                        {resultado4===false && (<p>Resultado de evaluacion Rechazar.</p>)}
+                        {resultado4 === true && (<p>Resultado de evaluacion Aceptar.</p>)}
+                        {resultado4 === false && (<p>Resultado de evaluacion Rechazar.</p>)}
                         <Box display="flex" gap={2} mt={2} justifyContent="center" alignItems="center">  {/* Espacio entre botones */}
                             <Button type="submit" variant="contained" color="success" onClick={setStep}>
                                 Aceptar Deuda/Ingreso
@@ -350,16 +355,16 @@ const TicketDetails = () => {
                             label="Ingrese la valuacion de propiedad/remodelacion"
                             type="text"
                             variant="outlined"
-                            value = {Req5}
+                            value={Req5}
                             fullWidth
                             margin="normal"
-                            onChange={handlepricetagchange }
+                            onChange={handlepricetagchange}
                         />
                         <Button type="submit" variant="contained" onClick={handlestep5}>
                             Calcular
                         </Button>
-                        {resultado5===true && (<p>Resultado de evaluacion Aceptar.</p>)}
-                        {resultado5===false && (<p>Resultado de evaluacion Rechazar.</p>)}
+                        {resultado5 === true && (<p>Resultado de evaluacion Aceptar.</p>)}
+                        {resultado5 === false && (<p>Resultado de evaluacion Rechazar.</p>)}
                         <Box display="flex" gap={2} mt={2} justifyContent="center" alignItems="center">  {/* Espacio entre botones */}
                             <Button type="submit" variant="contained" color="success" onClick={setStep}>
                                 Aceptar Monto Máximo
@@ -378,8 +383,8 @@ const TicketDetails = () => {
                         <Button type="submit" variant="contained" onClick={handlestep6}>
                             Calcular
                         </Button>
-                        {resultado6===true && (<p>Resultado de evaluacion Aceptar.</p>)}
-                        {resultado6===false && (<p>Resultado de evaluacion Rechazar.</p>)}
+                        {resultado6 === true && (<p>Resultado de evaluacion Aceptar.</p>)}
+                        {resultado6 === false && (<p>Resultado de evaluacion Rechazar.</p>)}
                         <Box display="flex" gap={2} mt={2} justifyContent="center" alignItems="center">  {/* Espacio entre botones */}
                             <Button type="submit" variant="contained" color="success" onClick={setStep}>
                                 Aceptar Edad del solicitante
@@ -452,9 +457,9 @@ const TicketDetails = () => {
                         <Button type="submit" variant="contained" onClick={handlestep7}>
                             Calcular
                         </Button>
-                        {resultado7===0 && (<p>Resultado de evaluacion Rechazar.</p>)}
-                        {resultado7===1 && (<p>Resultado de evaluacion Aceptar.</p>)}
-                        {resultado7===2 && (<p>Resultado de evaluacion Revision adicional.</p>)}
+                        {resultado7 === 0 && (<p>Resultado de evaluacion Rechazar.</p>)}
+                        {resultado7 === 1 && (<p>Resultado de evaluacion Aceptar.</p>)}
+                        {resultado7 === 2 && (<p>Resultado de evaluacion Revision adicional.</p>)}
                         <Box display="flex" gap={2} mt={2} justifyContent="center" alignItems="center">  {/* Espacio entre botones */}
                             <Button type="submit" variant="contained" color="success" onClick={acceptTicketExecutive}>
                                 Aceptar Capacidad de Ahorro
@@ -488,31 +493,58 @@ const TicketDetails = () => {
                 return <div>Contenido final</div>;
         }
     };
-    if(localStorage.getItem("permisos")==2){
-    return (
-        <Box p={2}>
-            {loading && <div>Cargando detalles del ticket...</div>}
-            {error && <div style={{ color: "red" }}>{error}</div>}
-            {ticket && (
-                <div>
-                    <h3>Detalles del Ticket ID: {ticket.id}</h3>
-                    <p>Monto: {ticket.amount.toLocaleString('es-ES')}</p>
-                    <p>Años: {ticket.years}</p>
-                    <p>Tipo: {tipoMapping[ticket.type]}</p>
-                    <p>Estado: {statusMapping[ticket.status] || ticket.status}</p>
-                    <p>Paso: {pasoMapping[ticket.step]}</p>
-                    <p>Cuota Mensual: {Math.round(ticket.fee).toLocaleString('es-ES')} CLP</p>
-                    <p>Costo total: {totalAmount.toLocaleString('es-ES')} CLP</p>
-                    {renderStepContent(ticket.step)} {/* Muestra contenido según el paso */}
+    if (localStorage.getItem("permisos") == 2) {
+        return (
+            <Box p={2}>
+                {loading && <div>Cargando detalles del ticket...</div>}
+                {error && <div style={{ color: "red" }}>{error}</div>}
+                {ticket ? (
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <h3>Detalles del Ticket ID: {ticket.id}</h3>
+                        </Grid>
+                        <Grid container spacing={2}>
+                            <Grid item xs={6}>
+                                <p> <strong>Monto:</strong> {ticket.amount.toLocaleString('es-ES')} </p>
+                                <p> <strong>Tipo:</strong> {tipoMapping[ticket.type]}</p>
+                                <p> <strong>Paso:</strong> {pasoMapping[ticket.step]}</p>
+                                <p> <strong>Costo total del credito:</strong> {totalAmount.toLocaleString('es-ES')} CLP</p>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <p> <strong>Años:</strong>Años: {ticket.years}</p>
+                                <p> <strong>Estado:</strong> {statusMapping[ticket.status] || ticket.status}</p>
+                                <p> <strong>Cuota Mensual:</strong> {Math.round(ticket.fee).toLocaleString('es-ES')} CLP</p>
 
-                    <Button variant="contained" color="primary" onClick={handleDownloadDocuments}>
-                        Descargar Documentos
-                    </Button>
+                            </Grid>
+                        </Grid>
+
+                        <Grid item xs={12}>
+                            {renderStepContent(ticket.step)} {/* Muestra contenido según el paso */}
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Button variant="contained" color="primary" onClick={handleDownloadDocuments}>
+                                Descargar Documentos
+                            </Button>
+                        </Grid>
+                    </Grid>
+                ) : (
+                    <div>
+                        <h3>No tienes permisos para ver esta página</h3>
+                    </div>
+                )}
+                <div style={{ textAlign: 'justify' }}>
+                    <h3><strong>Instrucciones de uso:</strong></h3>
+                    <p>En este formulario, tendrá que introducir los datos de los solicitantes. Los pasos son los siguientes:</p>
+                    <p>1.- Si en el paso que está la solicitud, requiere de documentos, presione el botón de descarga para obtener todos los documentos asociados a la solicitud. Si no, omita este paso.</p>
+                    <p>2.- Rellene todos los datos necesarios para el paso, luego presione en Calcular.</p>
+                    <p>3.- El resultado de Calcular le dirá si la solicitud sigue su evaluación o si tiene que ser rechazada.</p>
+                    <p>4.- Finalmente tendrá que presionar el botón de aceptar o el botón rechazar.</p>
+                    <p style={{ color: "red" }}><strong>ADVERTENCIA: Los pasos tienen doble verificación. Para aceptar los pasos debe estar seguro de esto, ya que no se puede modificar después.</strong></p>
                 </div>
-            )}
-        </Box>
-    )}else{
-        return(
+            </Box>
+        )
+    } else {
+        return (
             <div>
                 <h3> No tienes permisos para ver esta página </h3>
             </div>
