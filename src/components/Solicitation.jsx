@@ -51,6 +51,32 @@ const LoanRequestForm = () => {
             return;
         }
 
+        switch (type) {
+            case 1:
+                if (years < 0 || years > 30) {
+                    setError("El plazo debe estar entre 1 y 30 años para los prestamos de primera vivienda.");
+                    return;
+                }
+            
+            case 2:
+                if (years < 0 || years > 20) {
+                    setError("El plazo debe estar entre 1 y 20 años para los prestamos de segunda vivienda.");
+                    return;
+                }
+
+            case 3:
+                if (years < 0 || years > 25) {
+                    setError("El plazo debe estar entre 1 y 15 años para los prestamos de propiedades comerciales.");
+                    return;
+                }
+
+            case 4:
+                if (years < 0 || years > 15) {
+                    setError("El plazo debe estar entre 1 y 10 años para los prestamos de remodelación.");
+                    return;
+                }
+        }
+
          // Validación de rango de interés según el tipo de préstamo
          const { min, max } = interestRanges[type];
          const interestValue = parseFloat(interest);
@@ -351,7 +377,7 @@ const LoanRequestForm = () => {
                         {files[2] && <span>{files[2][0].name}</span>}
                     </>
                 )}
-
+                <p></p>
                 <Button type="submit" variant="contained">
                     Guardar Ticket
                 </Button>
