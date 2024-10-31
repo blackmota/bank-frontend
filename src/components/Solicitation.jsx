@@ -11,13 +11,10 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 
 const LoanRequestForm = () => {
-    const [idUser, setIdUser] = useState(0);
     const [amount, setAmount] = useState(""); // Inicializa como string
     const [years, setYears] = useState("");
     const [interest, setInterest] = useState("");
     const [type, setType] = useState(1);
-    const [userBirth, setUserBirth] = useState("");
-    const [income, setIncome] = useState("");
     const [files, setFiles] = useState([null, null, null, null]); // Arreglo para los archivos
     const [error, setError] = useState(""); // Estado para manejar errores
 

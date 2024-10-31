@@ -21,7 +21,7 @@ services:
   backend1:
     image: blackmota/bank-service:latest
     environment:
-      - DB_HOST=10.1.0.1
+      - DB_HOST=10.1.0.4
     networks:
       - backend-network
 
