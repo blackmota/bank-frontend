@@ -37,6 +37,18 @@ const LoanCalculator = () => {
       return; // Salir de la función si falta información
     }
 
+    if (rate < 0 || rate > 15) {
+      setError("La tasa de interés debe ser un valor entre 3.5 y 7 por ciento.");
+      setResult(null);
+      return; // Salir de la función si la tasa no es válida
+    }
+
+    if ( years < 1 || years > 30) {
+      setError("El plazo del préstamo debe ser entre 1 y 30 años.");
+      setResult(null);
+      return; // Salir de la función si el plazo no es válido
+    }
+
     const loanData = {
       loanAmount: cleanLoanAmount,
       rate: parseFloat(rate),
@@ -95,6 +107,7 @@ const LoanCalculator = () => {
             value={rate}
             variant="standard"
             onChange={(e) => setRate(e.target.value)}
+            inputProps={{ min: "0", step: "0.1" }}
           />
         </FormControl>
 
@@ -106,6 +119,7 @@ const LoanCalculator = () => {
             value={years}
             variant="standard"
             onChange={(e) => setYears(e.target.value)}
+            inputProps={{ min: "0", step: "1" }}
           />
         </FormControl>
 

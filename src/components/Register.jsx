@@ -11,6 +11,8 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CancelCircleIcon from "@mui/icons-material/Cancel";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -18,10 +20,11 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [income, setIncome] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [rut, setRut] = useState("");
-  const [error, setError] = useState(null); // Estado para el mensaje de error
-  const [open, setOpen] = useState(false); // Estado para el diálogo
+  const [error, setError] = useState(null);
+  const [open, setOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -51,7 +54,6 @@ const Register = () => {
   };
 
   const formatNumber = (value) => {
-    // Convierte el valor a número y lo formatea
     return value.replace(/\D/g, "").replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
   };
 
@@ -59,21 +61,25 @@ const Register = () => {
     const cleanedRut = rut.replace(/\./g, "").replace("-", "");
     const body = cleanedRut.slice(0, -1);
     const dv = cleanedRut.slice(-1).toUpperCase();
-  
+
     let sum = 0;
     let multiplier = 2;
-  
+
     for (let i = body.length - 1; i >= 0; i--) {
       sum += parseInt(body[i]) * multiplier;
       multiplier = multiplier === 7 ? 2 : multiplier + 1;
     }
-  
+
     const calculatedDv = 11 - (sum % 11);
     const dvExpected = calculatedDv === 11 ? "0" : calculatedDv === 10 ? "K" : calculatedDv.toString();
-  
+
     return dv === dvExpected;
   };
-  
+
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&.]{8,}$/;
+    return passwordRegex.test(password);
+  };
 
   const handleIncomeChange = (e) => {
     const inputValue = e.target.value;
@@ -83,15 +89,13 @@ const Register = () => {
 
   const handleRegister = (e) => {
     e.preventDefault();
-  
-    // Validar que el RUT sea válido
+
     if (!validateRut(rut)) {
       setError("El RUT ingresado no es válido. Por favor, revise e intente de nuevo.");
       setOpen(true);
       return;
     }
-  
-    // Validar la edad
+
     const age = calculateAge(birthDate);
     if (age > 69) {
       setError("La edad máxima permitida para registrarse es de 69 años.");
@@ -106,8 +110,21 @@ const Register = () => {
       setOpen(true);
       return;
     }
+
+    if (!validatePassword(password)) {
+      setError("La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un número y un carácter especial.");
+      setOpen(true);
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError("Las contraseñas no coinciden.");
+      setOpen(true);
+      return;
+    }
+
     setError(null);
-  
+
     const cleanIncome = parseFloat(income.replace(/\./g, ""));
     const userData = {
       name,
@@ -119,7 +136,7 @@ const Register = () => {
       rut,
       role: 1,
     };
-  
+
     authService
       .register(userData)
       .then((response) => {
@@ -140,7 +157,6 @@ const Register = () => {
         setOpen(true);
       });
   };
-  
 
   return (
     <Box
@@ -209,6 +225,28 @@ const Register = () => {
 
       <FormControl fullWidth>
         <TextField
+          id="confirmPassword"
+          label="Confirmar Contraseña"
+          type="password"
+          value={confirmPassword}
+          variant="standard"
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+        {password === confirmPassword && confirmPassword ? (
+          <Box display="flex" alignItems="center" mt={1}>
+            <CheckCircleIcon style={{ color: "green", marginRight: "5px" }} />
+            <span style={{ color: "green" }}>Las contraseñas coinciden</span>
+          </Box>
+        ) : password !== confirmPassword && confirmPassword ? (
+          <Box display="flex" alignItems="center" mt={1}>
+            <CancelCircleIcon style={{ color: "red", marginRight: "5px" }} />
+            <span style={{ color: "red" }}>Las contraseñas no coinciden</span>
+          </Box>
+        ) : null}
+      </FormControl>
+
+      <FormControl fullWidth>
+        <TextField
           id="birthDate"
           label="Fecha de Nacimiento"
           type="date"
@@ -243,7 +281,6 @@ const Register = () => {
         </Button>
       </FormControl>
 
-      {/* Diálogo para mostrar el mensaje de error */}
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Error</DialogTitle>
         <DialogContent>

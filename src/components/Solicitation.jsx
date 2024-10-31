@@ -115,8 +115,7 @@ const LoanRequestForm = () => {
             years,
             interest,
             type,
-            user_birth: localStorage.getItem("user_birth"),
-            income,
+            user_birth: localStorage.getItem("user_birth")
         };
 
         try {
@@ -170,7 +169,7 @@ const LoanRequestForm = () => {
                 <FormControl fullWidth>
                     <TextField
                         id="amount"
-                        label="Monto"
+                        label="Monto a solicitar"
                         type="text" // Cambiar a 'text' para permitir la formateación
                         value={amount}
                         variant="standard"
@@ -190,7 +189,7 @@ const LoanRequestForm = () => {
                 <FormControl fullWidth>
                     <TextField
                         id="interest"
-                        label="Interés"
+                        label="Interés porcentual (Ej: 4.5)"
                         type="text"
                         value={interest}
                         variant="standard"

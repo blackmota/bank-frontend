@@ -113,6 +113,10 @@ const TicketDetails = () => {
         }
     };
 
+    const handleReturn = () => {
+        navigate("/executive")
+    };
+
     const formatNumber = (value) => {
         // Convierte el valor a número y lo formatea
         return value.replace(/\D/g, "").replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
@@ -499,7 +503,9 @@ const TicketDetails = () => {
                 {loading && <div>Cargando detalles del ticket...</div>}
                 {error && <div style={{ color: "red" }}>{error}</div>}
                 {ticket ? (
+                    
                     <Grid container spacing={2}>
+                        <Button variant="contained" color="primary" onClick={handleReturn} sx={{marginBlock: '20px'}}> Regresar a solicitudes</Button>
                         <Grid item xs={12}>
                             <h3>Detalles del Ticket ID: {ticket.id}</h3>
                         </Grid>

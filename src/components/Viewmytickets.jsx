@@ -110,15 +110,18 @@ const TicketList = () => {
     setOpen(false);
   };
 
-  const handleAccept = () => {
+  const handleAccept = async () => {
     console.log("Términos aceptados para el ticket:", selectedTicket);
-    ticketService.acceptUser(selectedTicket)
-      .then((response) => {
-        ticketService.saveTicket(response.data);
-        fetchTickets(userId);
-      });
+    try {
+        const response = await ticketService.acceptUser(selectedTicket);
+        await ticketService.saveTicket(response.data); // Espera a que saveTicket termine
+        await fetchTickets(userId); // Llama a fetchTickets una vez saveTicket haya terminado
+    } catch (error) {
+        console.log("Error al aceptar los términos del ticket:", error);
+        setError("Ocurrió un error al aceptar los términos del ticket.");
+    }
     setOpen(false);
-  };
+};
 
 
 
@@ -205,35 +208,38 @@ const TicketList = () => {
           <DialogTitle>Términos del Ticket</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Ticket ID: {selectedTicket?.id} <br />
-              Monto Solicitado: {selectedTicket?.amount.toLocaleString('es-ES')} <br />
-              Años del credito: {selectedTicket?.years} <br />
-              Cuota Mensual: {Math.round(selectedTicket?.fee).toLocaleString('es-ES')} CLP <br />
-              Tasa de Interes: {selectedTicket?.interest} % <br />
-              Comision por Administracion: {Math.round(selectedTicket?.amount * 0.01)} (1% del total del monto solicitado)<br />
-              Seguro de desgravamen: {Math.round(selectedTicket?.amount * 0.0003)}  (0.03% del monto total por mes)<br />
-              Seguro de incendios: 20.000 CLP por mes<br />
-              Costo Mensual: {Math.round(selectedTicket?.fee + selectedTicket?.amount * 0.0003 + 20000).toLocaleString('es-ES')} CLP <br />
-              Costo total: {totalCost.toLocaleString('es-ES')} CLP <br />
+              <strong>Ticket ID:</strong> {selectedTicket?.id} <br />
+              <strong>Monto Solicitado:</strong> {selectedTicket?.amount.toLocaleString('es-ES')} <br />
+              <strong>Años del credito:</strong>{selectedTicket?.years} <br />
+              <strong>Cuota Mensual:</strong> {Math.round(selectedTicket?.fee).toLocaleString('es-ES')} CLP <br />
+              <strong>Tasa de Interes:</strong> {selectedTicket?.interest} % <br />
+              <strong>Comision por Administracion:</strong> {Math.round(selectedTicket?.amount * 0.01).toLocaleString('es-ES')} CLP (1% del total del monto solicitado)<br />
+              <strong>Seguro de desgravamen:</strong> {Math.round(selectedTicket?.amount * 0.0003).toLocaleString('es-ES')} CLP  (0.03% del monto total por mes)<br />
+              <strong>Seguro de incendios: </strong>20.000 CLP por mes<br />
+              <strong>Costo Mensual: </strong>{Math.round(selectedTicket?.fee + selectedTicket?.amount * 0.0003 + 20000).toLocaleString('es-ES')} CLP <br />
+              <strong>Costo total: </strong>{totalCost.toLocaleString('es-ES')} CLP <br />
               {/* Agrega más detalles si lo deseas */}
             </DialogContentText>
             
           </DialogContent>
           <DialogActions>
             {selectedTicket?.status === "E4" && (<>
-              <Button onClick={handleAccept} color="primary">
+              <Button variant="contained" onClick={handleAccept} color="success">
                 Aceptar
               </Button>
-              <Button onClick={rejectConditions} color="error">
+              <Button variant = "contained" onClick={rejectConditions} color="error">
                 Rechazar
               </Button>
             </>
             )}
           {selectedTicket?.status === "E5" && (
-            <Button onClick={rejectConditions} color="error">
+            <Button variant = "contained" onClick={rejectConditions} color="error">
               Cancelar ticket
             </Button>
           )}
+            <Button  variant = "contained" onClick={handleClose} color="primary">
+              Cerrar
+            </Button>
           </DialogActions>
         </Dialog>
       </Box>
