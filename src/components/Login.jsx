@@ -23,9 +23,10 @@ const Login = () => {
           setErrorMessage("Usuario o contraseña incorrecta.");
           return;
         }
-        const { id, income, birthDate, role } = response.data;
+        const { id, birthDate, role, name, lastname} = response.data;
         localStorage.setItem("id_usuario", id);
-        localStorage.setItem("income", income);
+        localStorage.setItem("user_name", name);
+        localStorage.setItem("user_lastname", lastname);
         localStorage.setItem("user_rut", rut);
         localStorage.setItem("user_birth", birthDate);
         localStorage.setItem("permisos", role);
