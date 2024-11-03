@@ -26,6 +26,7 @@ const Login = () => {
         const { id, income, birthDate, role } = response.data;
         localStorage.setItem("id_usuario", id);
         localStorage.setItem("income", income);
+        localStorage.setItem("user_rut", rut);
         localStorage.setItem("user_birth", birthDate);
         localStorage.setItem("permisos", role);
         navigate("/dashboard");

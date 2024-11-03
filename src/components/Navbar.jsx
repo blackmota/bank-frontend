@@ -13,7 +13,6 @@ import { useNavigate } from "react-router-dom";
 export default function Navbar() {
   const [open, setOpen] = useState(false);  // Mantiene el estado del Drawer cerrado por defecto
   const navigate = useNavigate();
-
   const toggleDrawer = (openState) => () => {
     setOpen(openState);  // Cambia el estado del Drawer solo cuando explícitamente se pasa un valor
   };
@@ -58,6 +57,7 @@ export default function Navbar() {
 
   // Verifica si hay un id_usuario en localStorage
   const isLoggedIn = localStorage.getItem("id_usuario") !== null;
+  const userRut = isLoggedIn ? localStorage.getItem("user_rut") : null;
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -82,7 +82,7 @@ export default function Navbar() {
           )}
           {isLoggedIn && (
             <Button color="inherit" onClick={handleLogout}>
-              Cerrar sesión
+             {`Cerrar Sesion (${userRut})`}
             </Button>
           )}
         </Toolbar>
