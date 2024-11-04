@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import loanService from "../services/loan.service";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -61,6 +62,7 @@ const LoanCalculator = () => {
   const [years, setYears] = useState("");
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const formatNumber = (value) => {
     return value.replace(/\D/g, "").replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");

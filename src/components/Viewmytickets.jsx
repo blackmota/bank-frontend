@@ -34,6 +34,17 @@ const TicketList = () => {
     E9: "En desembolso",
   };
 
+  const colorMapping = {
+    "E3": "orange",    // En revisión
+    "E4": "blue",      // Pre-Aprobada
+    "E5": "purple",    // En Aprobación Final
+    "E6": "green",     // Aprobada
+    "E7": "red",       // Rechazada
+    "E8": "grey",      // Cancelada por cliente
+    "E9": "darkblue"   // En desembolso
+  };
+
+
   const tipoMapping = {
     1: "Crédito de Primera Vivienda",
     2: "Crédito de Segunda Vivienda",
@@ -92,7 +103,7 @@ const TicketList = () => {
           console.log("Error al rechazar los términos del ticket:", error);
           setError("Ocurrió un error al rechazar los términos del ticket.");
         });
-        setOpen(false);
+      setOpen(false);
     }
   };
 
@@ -113,15 +124,15 @@ const TicketList = () => {
   const handleAccept = async () => {
     console.log("Términos aceptados para el ticket:", selectedTicket);
     try {
-        const response = await ticketService.acceptUser(selectedTicket);
-        await ticketService.saveTicket(response.data); // Espera a que saveTicket termine
-        await fetchTickets(userId); // Llama a fetchTickets una vez saveTicket haya terminado
+      const response = await ticketService.acceptUser(selectedTicket);
+      await ticketService.saveTicket(response.data); // Espera a que saveTicket termine
+      await fetchTickets(userId); // Llama a fetchTickets una vez saveTicket haya terminado
     } catch (error) {
-        console.log("Error al aceptar los términos del ticket:", error);
-        setError("Ocurrió un error al aceptar los términos del ticket.");
+      console.log("Error al aceptar los términos del ticket:", error);
+      setError("Ocurrió un error al aceptar los términos del ticket.");
     }
     setOpen(false);
-};
+  };
 
 
 
@@ -155,7 +166,15 @@ const TicketList = () => {
                           <strong>Estado:</strong> {statusMapping[ticket.status] || ticket.status}
                         </>
                       }
+                      sx={{
+                        "& .MuiListItemText-primary": {
+                          color: colorMapping[ticket.status] || "black", // Default color if status is undefined
+                          fontSize: "1.2rem", // Adjust the font size as needed
+                          fontWeight: "bold" // Optional: make the text bold
+                        }
+                      }}
                     />
+
 
                   </div>
                   <ListItemSecondaryAction>
@@ -220,24 +239,24 @@ const TicketList = () => {
               <strong>Costo total: </strong>{totalCost.toLocaleString('es-ES')} CLP <br />
               {/* Agrega más detalles si lo deseas */}
             </DialogContentText>
-            
+
           </DialogContent>
           <DialogActions>
             {selectedTicket?.status === "E4" && (<>
               <Button variant="contained" onClick={handleAccept} color="success">
                 Aceptar
               </Button>
-              <Button variant = "contained" onClick={rejectConditions} color="error">
+              <Button variant="contained" onClick={rejectConditions} color="error">
                 Rechazar
               </Button>
             </>
             )}
-          {selectedTicket?.status === "E5" && (
-            <Button variant = "contained" onClick={rejectConditions} color="error">
-              Cancelar ticket
-            </Button>
-          )}
-            <Button  variant = "contained" onClick={handleClose} color="primary">
+            {selectedTicket?.status === "E5" && (
+              <Button variant="contained" onClick={rejectConditions} color="error">
+                Cancelar ticket
+              </Button>
+            )}
+            <Button variant="contained" onClick={handleClose} color="primary">
               Cerrar
             </Button>
           </DialogActions>
