@@ -542,9 +542,10 @@ const TicketDetails = () => {
                     <h3><strong>Instrucciones de uso:</strong></h3>
                     <p>En este formulario, tendrá que introducir los datos de los solicitantes. Los pasos son los siguientes:</p>
                     <p>1.- Si en el paso que está la solicitud, requiere de documentos, presione el botón de descarga para obtener todos los documentos asociados a la solicitud. Si no, omita este paso.</p>
-                    <p>2.- Rellene todos los datos necesarios para el paso, luego presione en Calcular.</p>
-                    <p>3.- El resultado de Calcular le dirá si la solicitud sigue su evaluación o si tiene que ser rechazada.</p>
-                    <p>4.- Finalmente tendrá que presionar el botón de aceptar o el botón rechazar.</p>
+                    <p>2.- Si detecta que algun documento es erroneo o falso, rechace la solicitud.</p>
+                    <p>3.- Rellene todos los datos necesarios para el paso, luego presione en Calcular.</p>
+                    <p>4.- El resultado de Calcular le dirá si la solicitud sigue su evaluación o si tiene que ser rechazada.</p>
+                    <p>5.- Finalmente tendrá que presionar el botón de aceptar o el botón rechazar.</p>
                     <p style={{ color: "red" }}><strong>ADVERTENCIA: Los pasos tienen doble verificación. Para aceptar los pasos debe estar seguro de esto, ya que no se puede modificar después.</strong></p>
                 </div>
             </Box>
