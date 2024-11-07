@@ -26,7 +26,7 @@ const TicketList = () => {
   // Mapeo de estados
   const statusMapping = {
     E3: "En revisión",
-    E4: "Pre-Aprobada",
+    E4: "Pre-Aprobada | Se requiere aceptación de términos",
     E5: "Aprobación final",
     E6: "Aprobada",
     E7: "Rechazada",

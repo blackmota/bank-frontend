@@ -66,7 +66,7 @@ export default function Navbar() {
           {handleToolbarClick()}
 
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            PrestaBanco: Sistema de Préstamos Bancarios hola123
+            PrestaBanco: Sistema de Préstamos Bancarios
           </Typography>
 
           {/* Mostrar botones según si el usuario está logueado o no */}
