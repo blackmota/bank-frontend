@@ -54,24 +54,28 @@ const LoanRequestForm = () => {
                     setError("El plazo debe estar entre 1 y 30 años para los prestamos de primera vivienda.");
                     return;
                 }
+                break;
             
             case 2:
                 if (years < 0 || years > 20) {
                     setError("El plazo debe estar entre 1 y 20 años para los prestamos de segunda vivienda.");
                     return;
                 }
+                break;
 
             case 3:
                 if (years < 0 || years > 25) {
-                    setError("El plazo debe estar entre 1 y 15 años para los prestamos de propiedades comerciales.");
+                    setError("El plazo debe estar entre 1 y 25 años para los prestamos de propiedades comerciales.");
                     return;
                 }
+                break;
 
             case 4:
                 if (years < 0 || years > 15) {
-                    setError("El plazo debe estar entre 1 y 10 años para los prestamos de remodelación.");
+                    setError("El plazo debe estar entre 1 y 15 años para los prestamos de remodelación.");
                     return;
                 }
+                break;
         }
 
          // Validación de rango de interés según el tipo de préstamo
