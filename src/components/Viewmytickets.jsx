@@ -121,16 +121,17 @@ const TicketList = () => {
     setOpen(false);
   };
 
-  const handleAccept = async () => {
+  const handleAccept = () => {
     console.log("Términos aceptados para el ticket:", selectedTicket);
-    try {
-      const response = await ticketService.acceptUser(selectedTicket);
-      await ticketService.saveTicket(response.data); // Espera a que saveTicket termine
-      await fetchTickets(userId); // Llama a fetchTickets una vez saveTicket haya terminado
-    } catch (error) {
-      console.log("Error al aceptar los términos del ticket:", error);
-      setError("Ocurrió un error al aceptar los términos del ticket.");
-    }
+    ticketService.acceptUser(selectedTicket)
+      .then((response) => {
+        ticketService.saveTicket(response.data); // No espera a que saveTicket termine
+        fetchTickets(userId); // Llama a fetchTickets inmediatamente
+      })
+      .catch((error) => {
+        console.log("Error al aceptar los términos del ticket:", error);
+        setError("Ocurrió un error al aceptar los términos del ticket.");
+      });
     setOpen(false);
   };
 
