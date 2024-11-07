@@ -146,10 +146,14 @@ const Register = () => {
           return;
         }
         setError(null);
-        localStorage.setItem("id_usuario", response.data.id);
-        localStorage.setItem("income", response.data.income);
-        localStorage.setItem("user_birth", response.data.birthDate);
-        localStorage.setItem("permisos", response.data.role);
+        const { id, birthDate, role, name, lastname, rut} = response.data;
+        localStorage.setItem("id_usuario", id);
+        localStorage.setItem("user_name", name);
+        localStorage.setItem("user_lastname", lastname);
+        localStorage.setItem("user_rut", rut);
+        localStorage.setItem("user_birth", birthDate);
+        localStorage.setItem("permisos", role);
+
         navigate("/dashboard");
       })
       .catch((error) => {
