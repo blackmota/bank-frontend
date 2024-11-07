@@ -203,7 +203,7 @@ const LoanCalculator = () => {
           type="submit"
           startIcon={<CalculateIcon />}
         >
-          Calcular
+          Calcular credito chile
         </Button>
       </FormControl>
       </>}
