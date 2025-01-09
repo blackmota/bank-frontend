@@ -17,6 +17,7 @@ const LoanRequestForm = () => {
     const [type, setType] = useState(1);
     const [files, setFiles] = useState([null, null, null, null]); // Arreglo para los archivos
     const [error, setError] = useState(""); // Estado para manejar errores
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const navigate = useNavigate();
 
@@ -37,7 +38,7 @@ const LoanRequestForm = () => {
         newFiles[index] = [e.target.files[0], type]; // Guarda el archivo en el índice correspondiente
         setFiles(newFiles);
     };
-    
+
 
     const handleSaveTicket = async (e) => {
         e.preventDefault();
@@ -107,6 +108,7 @@ const LoanRequestForm = () => {
             return;
         }
 
+        setIsSubmitting(true);
         setError(""); // Limpiar cualquier error previo
 
         // Convertir el monto a número sin comas
@@ -138,12 +140,14 @@ const LoanRequestForm = () => {
                         );
                     }
                 }
+                setIsSubmitting(false);
                 alert("Solicitud enviada exitosamente.");
                 navigate("/dashboard");
             }
         } catch (error) {
             console.error("Error al guardar el ticket:", error);
         }
+
     };
 
     const sendDocument = async (user, id_ticket, type, file) => {
@@ -228,6 +232,7 @@ const LoanRequestForm = () => {
 
                 {/* Cargar archivos según el tipo */}
                 <h4>Cargar Documentos:</h4>
+                <h5>Presione los botones inferiores para cargar los documentos necesarios</h5>
                 {type === 1 && (
                     <>
                         <Button variant="outlined" component="label">
@@ -382,8 +387,15 @@ const LoanRequestForm = () => {
                 )}
                 <p></p>
                 <Button variant="contained" type="submit" >
-                    Guardar Ticket
+                    {isSubmitting ? "Enviando..." : "Enviar Solicitud"}
                 </Button>
+
+                {isSubmitting && (
+                    <div className="loading-overlay">
+                        <div className="spinner"></div>
+                        <p>Enviando ticket...</p>
+                    </div>
+                )}
             </Box>
         );
     } else {
