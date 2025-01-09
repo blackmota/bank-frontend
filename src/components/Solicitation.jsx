@@ -142,7 +142,7 @@ const LoanRequestForm = () => {
                 }
                 setIsSubmitting(false);
                 alert("Solicitud enviada exitosamente.");
-                navigate("/dashboard");
+                navigate("/seetickets");
             }
         } catch (error) {
             console.error("Error al guardar el ticket:", error);

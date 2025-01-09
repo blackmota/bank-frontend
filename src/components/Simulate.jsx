@@ -179,7 +179,7 @@ const LoanCalculator = () => {
             value={rate}
             variant="standard"
             onChange={(e) => setRate(e.target.value)}
-            inputProps={{ min: "0", step: "0.1" }}
+            inputProps={{ min: "3.5", step: "0.1", max: "7.0" }}
           />
         </FormControl>
 
