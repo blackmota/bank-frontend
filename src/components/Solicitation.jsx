@@ -37,11 +37,14 @@ const LoanRequestForm = () => {
         newFiles[index] = [e.target.files[0], type]; // Guarda el archivo en el índice correspondiente
         setFiles(newFiles);
     };
+    
 
     const handleSaveTicket = async (e) => {
         e.preventDefault();
-        if(!window.confirm("¿Estás seguro de enviar la solicitud?")){
-            return}
+        console.log("Formulario enviado.");
+        if (!window.confirm("¿Estás seguro de enviar la solicitud?")) {
+            return
+        }
         // Validación de los campos
         if (!amount || !years || !interest) {
             setError("Todos los campos deben estar completos.");
@@ -55,7 +58,7 @@ const LoanRequestForm = () => {
                     return;
                 }
                 break;
-            
+
             case 2:
                 if (years < 0 || years > 20) {
                     setError("El plazo debe estar entre 1 y 20 años para los prestamos de segunda vivienda.");
@@ -78,13 +81,13 @@ const LoanRequestForm = () => {
                 break;
         }
 
-         // Validación de rango de interés según el tipo de préstamo
-         const { min, max } = interestRanges[type];
-         const interestValue = parseFloat(interest);
-         if (interestValue < min || interestValue > max) {
-             setError(`El interés debe estar entre ${min}% y ${max}% para este tipo de préstamo.`);
-             return;
-         }
+        // Validación de rango de interés según el tipo de préstamo
+        const { min, max } = interestRanges[type];
+        const interestValue = parseFloat(interest);
+        if (interestValue < min || interestValue > max) {
+            setError(`El interés debe estar entre ${min}% y ${max}% para este tipo de préstamo.`);
+            return;
+        }
 
         // Validación de los documentos según el tipo
         let requiredFiles = [];
@@ -378,7 +381,7 @@ const LoanRequestForm = () => {
                     </>
                 )}
                 <p></p>
-                <Button type="submit" variant="contained">
+                <Button variant="contained" type="submit" >
                     Guardar Ticket
                 </Button>
             </Box>

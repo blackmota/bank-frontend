@@ -77,7 +77,7 @@ const LoanCalculator = () => {
   const handleCalculate = (e) => {
     e.preventDefault();
     const cleanLoanAmount = parseFloat(loanAmount.replace(/\./g, ""));
-    
+
     if (!loanType || !cleanLoanAmount || !rate || !years) {
       setError("Por favor, completa todos los campos.");
       setResult(null);
@@ -160,68 +160,68 @@ const LoanCalculator = () => {
       }
       {renderLoanConditions()}
       {loanType && <>
-      <FormControl fullWidth>
-        <TextField
-          id="loanAmount"
-          label="Monto del Préstamo"
-          type="text"
-          value={loanAmount}
-          variant="standard"
-          onChange={handleLoanAmountChange}
-        />
-      </FormControl>
+        <FormControl fullWidth>
+          <TextField
+            id="loanAmount"
+            label="Monto del Préstamo"
+            type="text"
+            value={loanAmount}
+            variant="standard"
+            onChange={handleLoanAmountChange}
+          />
+        </FormControl>
 
-      <FormControl fullWidth>
-        <TextField
-          id="rate"
-          label="Tasa de Interés % (Ej: 4.5)"
-          type="number"
-          value={rate}
-          variant="standard"
-          onChange={(e) => setRate(e.target.value)}
-          inputProps={{ min: "0", step: "0.1" }}
-        />
-      </FormControl>
+        <FormControl fullWidth>
+          <TextField
+            id="rate"
+            label="Tasa de Interés % (Ej: 4.5)"
+            type="number"
+            value={rate}
+            variant="standard"
+            onChange={(e) => setRate(e.target.value)}
+            inputProps={{ min: "0", step: "0.1" }}
+          />
+        </FormControl>
 
-      <FormControl fullWidth>
-        <TextField
-          id="years"
-          label="Número de Años"
-          type="number"
-          value={years}
-          variant="standard"
-          onChange={(e) => setYears(e.target.value)}
-          inputProps={{ min: "1", max: "30", step: "1" }}
-        />
-      </FormControl>
+        <FormControl fullWidth>
+          <TextField
+            id="years"
+            label="Número de Años"
+            type="number"
+            value={years}
+            variant="standard"
+            onChange={(e) => setYears(e.target.value)}
+            inputProps={{ min: "1", max: "30", step: "1" }}
+          />
+        </FormControl>
 
-      <FormControl>
-        <br />
-        <Button
-          variant="contained"
-          color="primary"
-          type="submit"
-          startIcon={<CalculateIcon />}
-        >
-          Calcular credito chile
-        </Button>
-      </FormControl>
+        <FormControl>
+          <br />
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            startIcon={<CalculateIcon />}
+          >
+            Calcular credito
+          </Button>
+        </FormControl>
       </>}
       {result !== null && (
         <div>
           <h4>La cuota mensual de su crédito simulado es de: {Math.round(result).toLocaleString('es-ES')} $CLP/Mes</h4>
           <p>Otros costos asociados al credito son los siguientes:</p>
-          <p><strong>Comision por administracion: </strong> {(parseFloat(loanAmount.replace(/\./g, ""))*0.01).toLocaleString("es-ES")} CLP (1% del monto total solicitado)</p>
-          <p><strong>Seguro de desgravamen: </strong> {(Math.round(parseFloat(loanAmount.replace(/\./g, ""))*0.0003)).toLocaleString("es-ES")} CLP (0.03% del monto total solicitado mensualmente)</p>
+          <p><strong>Comision por administracion: </strong> {(parseFloat(loanAmount.replace(/\./g, "")) * 0.01).toLocaleString("es-ES")} CLP (1% del monto total solicitado)</p>
+          <p><strong>Seguro de desgravamen: </strong> {(Math.round(parseFloat(loanAmount.replace(/\./g, "")) * 0.0003)).toLocaleString("es-ES")} CLP (0.03% del monto total solicitado mensualmente)</p>
           <p><strong>Seguro de incendios: </strong> 20.000 CLP (Costo fijo mensual)</p>
           <strong>Si desea continuar con la solicitud de este credito, por favor presione el boton de Formulario de Solicitud.</strong>
           <p>
-          <Button
-            variant = "contained"
-            color = "primary"
-            onClick = {() => navigate("/solicitation")}
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => navigate("/solicitation")}
             > Formulario de Solicitud
-          </Button>
+            </Button>
           </p>
         </div>
       )}

@@ -26,17 +26,16 @@ export default function Navbar() {
     if (isLoggedIn) {
       return (
         <>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-            onClick={toggleDrawer(true)}  // Aquí solo abre el Drawer cuando se hace clic
-          >
-            <MenuIcon />
-          </IconButton>
-        </>
+        <Button
+        variant="contained"
+        color="primary"
+        style={{ marginLeft: "0.5rem", boxShadow: "none" }}
+        startIcon={<MenuIcon />}
+        onClick={toggleDrawer(true)}
+      >
+        Menu
+      </Button>
+      </>
       );
     } else {
       return (
@@ -82,7 +81,7 @@ export default function Navbar() {
           )}
           {isLoggedIn && (
             <Button color="inherit" onClick={handleLogout}>
-             {`Cerrar Sesion (${userRut})`}
+              {`Cerrar Sesion (${userRut})`}
             </Button>
           )}
         </Toolbar>

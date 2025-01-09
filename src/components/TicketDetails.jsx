@@ -245,18 +245,30 @@ const TicketDetails = () => {
                         <Button type="submit" variant="contained" onClick={handlestep1}>
                             Calcular
                         </Button>
-                        {resultado1 === true && (<p>Resultado de evaluacion Aceptar.</p>)}
-                        {resultado1 === false && (<p>Resultado de evaluacion Rechazar.</p>)}
-                        <p></p>
-                        <Box display="flex" gap={2} mt={2} justifyContent="center" alignItems="center">  {/* Espacio entre botones */}
+                        {resultado1 === true && (
+                            <>
+                            <p>Resultado de evaluacion Aceptar.</p>
+                            <p></p>
+                            <Box display="flex" gap={2} mt={2} justifyContent="center" alignItems="center">  {/* Espacio entre botones */}
                             <Button type="submit" variant="contained" color="success" onClick={setStep}>
                                 Aceptar cuota/ingresos
                             </Button>
+                            </Box>
+                            <p></p>
+                            </>
+                            )}
+                        {resultado1 === false && (
+                            <>
+                            <p>Resultado de evaluacion Rechazar.</p>
+                            <p></p>
+                            <Box display="flex" gap={2} mt={2} justifyContent="center" alignItems="center">  {/* Espacio entre botones */}
                             <Button type="submit" variant="contained" color="error" onClick={handlereject}>
                                 Rechazar solicitud
                             </Button>
                         </Box>
                         <p></p>
+                            </>
+                            )}
                     </div>
                 );
             case 2:
@@ -300,17 +312,30 @@ const TicketDetails = () => {
                         <Button type="submit" variant="contained" onClick={handlestep3}>
                             Calcular
                         </Button>
-                        {resultado3 === true && (<p>Resultado de evaluacion Aceptar.</p>)}
-                        {resultado3 === false && (<p>Resultado de evaluacion Rechazar.</p>)}
-                        <Box display="flex" gap={2} mt={2} justifyContent="center" alignItems="center">  {/* Espacio entre botones */}
+                        {resultado3 === true && (
+                            <>
+                            <p>Resultado de evaluacion Aceptar.</p>
+                            <p></p>
+                            <Box display="flex" gap={2} mt={2} justifyContent="center" alignItems="center">  {/* Espacio entre botones */}
                             <Button type="submit" variant="contained" color="success" onClick={setStep}>
-                                Aceptar Antiguedad Laboral
+                                Aceptar Antigüedad Laboral y Estabilidad
                             </Button>
+                            </Box>
+                            <p></p>
+                            </>
+                            )}
+                        {resultado3 === false && (
+                            <>
+                            <p>Resultado de evaluacion Rechazar.</p>
+                            <p></p>
+                            <Box display="flex" gap={2} mt={2} justifyContent="center" alignItems="center">  {/* Espacio entre botones */}
                             <Button type="submit" variant="contained" color="error" onClick={handlereject}>
                                 Rechazar solicitud
                             </Button>
                         </Box>
                         <p></p>
+                            </>
+                            )}
                     </div>
                 );
             case 4:
@@ -338,17 +363,30 @@ const TicketDetails = () => {
                         <Button type="submit" variant="contained" onClick={handlestep4}>
                             Calcular
                         </Button>
-                        {resultado4 === true && (<p>Resultado de evaluacion Aceptar.</p>)}
-                        {resultado4 === false && (<p>Resultado de evaluacion Rechazar.</p>)}
-                        <Box display="flex" gap={2} mt={2} justifyContent="center" alignItems="center">  {/* Espacio entre botones */}
+                        {resultado4 === true && (
+                            <>
+                            <p>Resultado de evaluacion Aceptar.</p>
+                            <p></p>
+                            <Box display="flex" gap={2} mt={2} justifyContent="center" alignItems="center">  {/* Espacio entre botones */}
                             <Button type="submit" variant="contained" color="success" onClick={setStep}>
-                                Aceptar Deuda/Ingreso
+                                Aceptar Relación Deuda/Ingreso
                             </Button>
+                            </Box>
+                            <p></p>
+                            </>
+                            )}
+                        {resultado4 === false && (
+                            <>
+                            <p>Resultado de evaluacion Rechazar.</p>
+                            <p></p>
+                            <Box display="flex" gap={2} mt={2} justifyContent="center" alignItems="center">  {/* Espacio entre botones */}
                             <Button type="submit" variant="contained" color="error" onClick={handlereject}>
                                 Rechazar solicitud
                             </Button>
                         </Box>
                         <p></p>
+                            </>
+                            )}
                     </div>
                 );
             case 5:
@@ -367,37 +405,64 @@ const TicketDetails = () => {
                         <Button type="submit" variant="contained" onClick={handlestep5}>
                             Calcular
                         </Button>
-                        {resultado5 === true && (<p>Resultado de evaluacion Aceptar.</p>)}
-                        {resultado5 === false && (<p>Resultado de evaluacion Rechazar.</p>)}
-                        <Box display="flex" gap={2} mt={2} justifyContent="center" alignItems="center">  {/* Espacio entre botones */}
+                        {resultado5 === true && (
+                            <>
+                            <p>Resultado de evaluacion Aceptar.</p>
+                            <p></p>
+                            <Box display="flex" gap={2} mt={2} justifyContent="center" alignItems="center">  {/* Espacio entre botones */}
                             <Button type="submit" variant="contained" color="success" onClick={setStep}>
-                                Aceptar Monto Máximo
+                                Aceptar Monto Máximo del Financiamiento
                             </Button>
+                            </Box>
+                            <p></p>
+                            </>
+                            )}
+                        {resultado5 === false && (
+                            <>
+                            <p>Resultado de evaluacion Rechazar.</p>
+                            <p></p>
+                            <Box display="flex" gap={2} mt={2} justifyContent="center" alignItems="center">  {/* Espacio entre botones */}
                             <Button type="submit" variant="contained" color="error" onClick={handlereject}>
                                 Rechazar solicitud
                             </Button>
                         </Box>
                         <p></p>
+                            </>
+                            )}
                     </div>
                 );
             case 6:
                 return (
                     <div>
-                        <h3>Edad del Solicitante</h3>
+                        <h3>Paso 6: Edad del Solicitante</h3>
                         <Button type="submit" variant="contained" onClick={handlestep6}>
                             Calcular
                         </Button>
-                        {resultado6 === true && (<p>Resultado de evaluacion Aceptar.</p>)}
-                        {resultado6 === false && (<p>Resultado de evaluacion Rechazar.</p>)}
-                        <Box display="flex" gap={2} mt={2} justifyContent="center" alignItems="center">  {/* Espacio entre botones */}
+                        {resultado6 === true && (
+                            <>
+                            <p>Resultado de evaluacion Aceptar.</p>
+                            <p></p>
+                            <Box display="flex" gap={2} mt={2} justifyContent="center" alignItems="center">  {/* Espacio entre botones */}
                             <Button type="submit" variant="contained" color="success" onClick={setStep}>
-                                Aceptar Edad del solicitante
+                                Aceptar Edad del Solicitante
                             </Button>
+                            </Box>
+                            <p></p>
+                            </>
+                            )}
+                        {resultado6 === false && (
+                            <>
+                            <p>Resultado de evaluacion Rechazar.</p>
+                            <p></p>
+                            <Box display="flex" gap={2} mt={2} justifyContent="center" alignItems="center">  {/* Espacio entre botones */}
                             <Button type="submit" variant="contained" color="error" onClick={handlereject}>
                                 Rechazar solicitud
                             </Button>
                         </Box>
                         <p></p>
+                            </>
+                            )}
+                        
                     </div>
                 );
             case 7:
@@ -461,18 +526,31 @@ const TicketDetails = () => {
                         <Button type="submit" variant="contained" onClick={handlestep7}>
                             Calcular
                         </Button>
-                        {resultado7 === 0 && (<p>Resultado de evaluacion Rechazar.</p>)}
-                        {resultado7 === 1 && (<p>Resultado de evaluacion Aceptar.</p>)}
-                        {resultado7 === 2 && (<p>Resultado de evaluacion Revision adicional.</p>)}
-                        <Box display="flex" gap={2} mt={2} justifyContent="center" alignItems="center">  {/* Espacio entre botones */}
-                            <Button type="submit" variant="contained" color="success" onClick={acceptTicketExecutive}>
-                                Aceptar Capacidad de Ahorro
-                            </Button>
+                        {resultado7 === 0 && (
+                            <>
+                            <p>Resultado de evaluacion Rechazar.</p>
+                            <p></p>
+                            <Box display="flex" gap={2} mt={2} justifyContent="center" alignItems="center">  {/* Espacio entre botones */}
                             <Button type="submit" variant="contained" color="error" onClick={handlereject}>
                                 Rechazar solicitud
                             </Button>
                         </Box>
                         <p></p>
+                            </>
+                            )}
+                        {resultado7 === 1 && (
+                            <>
+                            <p>Resultado de evaluacion Aceptar.</p>
+                            <p></p>
+                            <Box display="flex" gap={2} mt={2} justifyContent="center" alignItems="center">  {/* Espacio entre botones */}
+                            <Button type="submit" variant="contained" color="success" onClick={acceptTicketExecutive}>
+                                Aceptar Capacidad de Ahorro
+                            </Button>
+                            </Box>
+                            <p></p>
+                            </>
+                            )}
+                        {resultado7 === 2 && (<p>Resultado de evaluacion Revision adicional.</p>)}
                     </div>
                 );
             case 8:
@@ -492,7 +570,6 @@ const TicketDetails = () => {
                     </div>
                 );
 
-            // Agrega más pasos según sea necesario
             default:
                 return <div>Contenido final</div>;
         }
@@ -532,6 +609,11 @@ const TicketDetails = () => {
                                 Descargar Documentos
                             </Button>
                         </Grid>
+                        <Grid item xs={12}>
+                            <Button variant="contained" color="error" onClick={handlereject}>
+                                Discordancia en los Documentos (Rechazar)
+                            </Button>
+                        </Grid>
                     </Grid>
                 ) : (
                     <div>
@@ -545,7 +627,7 @@ const TicketDetails = () => {
                     <p>2.- Si detecta que algun documento es erroneo o falso, rechace la solicitud.</p>
                     <p>3.- Rellene todos los datos necesarios para el paso, luego presione en Calcular.</p>
                     <p>4.- El resultado de Calcular le dirá si la solicitud sigue su evaluación o si tiene que ser rechazada.</p>
-                    <p>5.- Finalmente tendrá que presionar el botón de aceptar o el botón rechazar.</p>
+                    <p>5.- Finalmente tendrá que presionar el botón de aceptar o el botón rechazar, segun el resultado de la evaluacion.</p>
                     <p style={{ color: "red" }}><strong>ADVERTENCIA: Los pasos tienen doble verificación. Para aceptar los pasos debe estar seguro de esto, ya que no se puede modificar después.</strong></p>
                 </div>
             </Box>

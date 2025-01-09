@@ -30,6 +30,7 @@ const Login = () => {
         localStorage.setItem("user_rut", rut);
         localStorage.setItem("user_birth", birthDate);
         localStorage.setItem("permisos", role);
+        alert("Inicio de sesión exitoso.");
         navigate("/dashboard");
       })
       .catch((error) => {
